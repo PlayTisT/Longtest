@@ -8,12 +8,16 @@ test('Googleค้นคำว่า หวย ', async ({ page }) => {
   });
 
   await test.step('Step 2 :: Type into search box', async () => {
+    await page.waitForSelector('#APjFqb');
+  
     const seachField = page.locator('#APjFqb');
     await seachField.fill('หวย');
-      await seachField.press('Enter');   // ทำไมรันแล้วมันไม่กด Enter หนา?? 
-    
+    await seachField.press('Enter');   // ทำไมรันแล้ว  Enter ไม่ผ่าน ,Element Sync "#APjFqb" อาจจะผิด 
+    // หน้าเว็บอาจจะโหลดไม่เสร็จ เพิ่มบรรทัด 11 กับ 17
+     await page.waitForNavigation();กด // Enter แล้วต้องรอหน้าเว็บโหลดเสร็จ  รอให้หน้าเว็บเปลี่ยนไป  
   });
 
+  
   await test.step('Step 3 :: Assert text in id=result-stats', async () => {
     // Assert "ผลการค้นหาประมาณ XXX รายการ (X.XX วินาที)"
     // Step 3 :: Assert text in id=result-stats
